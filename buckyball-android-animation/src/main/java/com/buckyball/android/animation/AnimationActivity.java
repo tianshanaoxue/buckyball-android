@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 /**
- * @author 刘伟 liuweies@didichuxing.com
+ * @author
  * @Desc
  * @date 17/10/30 11:22
  */

@@ -1,6 +1,7 @@
 package com.buckyball.viewutils;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.util.DisplayMetrics;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 /**
- * @author 刘伟 liuweies@didichuxing.com
+ * @author
  * @Desc
  * @date 17/11/22 10:47
  */
@@ -23,6 +24,26 @@ public class FloatViewUtils {
     private static long lastDownTime;
     private static WindowManager mWindowManager;
     private static Activity activity;
+    private static FloatViewActivityLifeCircleCallback activityLifeCircleCallback;
+    /**
+     * 注册时的点击监听
+     */
+    private static View.OnClickListener onClickListener;
+    private static int layoutId = -1;
+    public static void registerActivityLifeCircle(Application application, int layoutId,View.OnClickListener onClickListener) {
+        if (application == null)
+            return;
+        if (activityLifeCircleCallback == null)
+            activityLifeCircleCallback = new FloatViewActivityLifeCircleCallback();
+        application.registerActivityLifecycleCallbacks(activityLifeCircleCallback);
+        FloatViewUtils.onClickListener = onClickListener;
+        FloatViewUtils.layoutId = layoutId;
+    }
+
+    public static void unRegisterActivityLifeCircle(Application application) {
+        if (application != null && activityLifeCircleCallback != null)
+            application.unregisterActivityLifecycleCallbacks(activityLifeCircleCallback);
+    }
 
     /**
      * 显示浮动窗口
@@ -30,6 +51,8 @@ public class FloatViewUtils {
      * @param onClickListener
      */
     public static void showFloatView(Activity activity, int resId, final View.OnClickListener onClickListener) {
+        if(resId<0 && FloatViewUtils.layoutId<0)
+            return ;
         if (FloatViewUtils.activity != activity)
             destroyFloatView();
         FloatViewUtils.activity = activity;
@@ -68,7 +91,7 @@ public class FloatViewUtils {
                                 (Context.LAYOUT_INFLATER_SERVICE);
 
                 if (inflater != null) {
-                    floatView = (ViewGroup) inflater.inflate(resId, null);
+                    floatView = (ViewGroup) inflater.inflate(resId<0?FloatViewUtils.layoutId:resId, null);
                 }
                 wmParams.token = floatView.getWindowToken();
                 if (floatView == null)
@@ -94,6 +117,9 @@ public class FloatViewUtils {
                         } else if (System.currentTimeMillis() - lastDownTime < 250 && event.getAction() == MotionEvent.ACTION_UP) {
                             if (onClickListener != null)
                                 onClickListener.onClick(floatView);
+                            if(FloatViewUtils.onClickListener!=null){
+                                FloatViewUtils.onClickListener.onClick(floatView);
+                            }
                             return false;
                         }
                         return false;
@@ -130,7 +156,7 @@ public class FloatViewUtils {
     /**
      * 销毁浮动窗口
      */
-    private static void destroyFloatView() {
+    private static void destroyFloatView(Activity activity) {
         Log.d(TAG, "destroyFloatView....");
         if (floatView != null && mWindowManager != null) {
             try {

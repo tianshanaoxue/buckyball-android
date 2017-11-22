@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * @author 刘伟 liuweies@didichuxing.com
+ * @author
  * @Desc
  * @date 17/10/30 11:21
  */
