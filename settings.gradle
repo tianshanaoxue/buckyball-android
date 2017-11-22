@@ -1,1 +1,1 @@
-include ':app', ':buckyball-android-animation'
+include ':app', ':buckyball-android-animation', ':buckyball-android-viewutils'
