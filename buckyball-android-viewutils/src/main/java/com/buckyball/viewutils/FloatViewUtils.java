@@ -14,9 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author
@@ -55,8 +53,8 @@ public class FloatViewUtils {
      * @param onClickListener
      */
     public static void showFloatView(Activity activity, int resId, final View.OnClickListener onClickListener) {
-        if(activity==null)
-            return ;
+        if (activity == null)
+            return;
         if (resId < 0 && FloatViewUtils.layoutId < 0)
             return;
         if (onClickListener != null)
@@ -128,7 +126,9 @@ public class FloatViewUtils {
                 e.printStackTrace();
             }
         }
-            mWindowManager.addView(floatView, floatView.getLayoutParams());
+        if (mWindowManager == null)
+            return;
+        mWindowManager.addView(floatView, floatView.getLayoutParams());
         if (floatView != null)
             floatView.setVisibility(View.VISIBLE);
     }
