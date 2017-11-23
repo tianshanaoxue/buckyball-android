@@ -28,7 +28,7 @@ public class FloatViewActivityLifeCircleCallback implements Application.Activity
 
     @Override
     public void onActivityPaused(Activity activity) {
-        FloatViewUtils.hiddenFloatView();
+        FloatViewUtils.hiddenFloatView(activity);
     }
 
     @Override
@@ -43,6 +43,6 @@ public class FloatViewActivityLifeCircleCallback implements Application.Activity
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-
+        FloatViewUtils.destroyFloatView(activity);
     }
 }

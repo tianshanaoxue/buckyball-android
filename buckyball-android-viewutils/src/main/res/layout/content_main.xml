@@ -41,5 +41,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="销毁浮动按钮" />
+
+
+
+        <TextView
+            android:id="@+id/skipView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="跳转" />
+
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

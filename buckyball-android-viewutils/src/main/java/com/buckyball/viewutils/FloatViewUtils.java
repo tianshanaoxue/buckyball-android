@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @author
  * @Desc
@@ -20,17 +25,16 @@ import android.view.WindowManager;
  */
 public class FloatViewUtils {
     private static final String TAG = "FloatViewUtils";
-    private static ViewGroup floatView;
     private static long lastDownTime;
-    private static WindowManager mWindowManager;
-    private static Activity activity;
+    private static Map<String, ViewGroup> floatViewMap = new HashMap<>();
     private static FloatViewActivityLifeCircleCallback activityLifeCircleCallback;
     /**
      * 注册时的点击监听
      */
     private static View.OnClickListener onClickListener;
     private static int layoutId = -1;
-    public static void registerActivityLifeCircle(Application application, int layoutId,View.OnClickListener onClickListener) {
+
+    public static void registerActivityLifeCircle(Application application, int layoutId, View.OnClickListener onClickListener) {
         if (application == null)
             return;
         if (activityLifeCircleCallback == null)
@@ -51,90 +55,91 @@ public class FloatViewUtils {
      * @param onClickListener
      */
     public static void showFloatView(Activity activity, int resId, final View.OnClickListener onClickListener) {
-        if(resId<0 && FloatViewUtils.layoutId<0)
+        if(activity==null)
             return ;
-        if (FloatViewUtils.activity != activity)
-            destroyFloatView();
-        FloatViewUtils.activity = activity;
-        Log.d(TAG, "showFloatView....");
+        if (resId < 0 && FloatViewUtils.layoutId < 0)
+            return;
+        if (onClickListener != null)
+            FloatViewUtils.onClickListener = onClickListener;
+        ViewGroup floatView = floatViewMap.get(activity.toString());
+        Log.d(TAG, "showFloatView. ...activity=" + activity + "，floatView=" + floatView);
+        final WindowManager mWindowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         if (floatView == null) {
             try {
-//                requestAlertWindowPermission();
-                //获取LayoutParams对象
-                //获取的是CompatModeWrapper对象
-                mWindowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
 
-                // 窗体的布局样式
-                final WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
+                WindowManager.LayoutParams floatViewParams = new WindowManager.LayoutParams();
 
                 // 设置窗体显示类型——TYPE_SYSTEM_ALERT(系统提示)
-                wmParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
+                floatViewParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
 
                 // 设置窗体焦点及触摸：
                 // FLAG_NOT_FOCUSABLE(不能获得按键输入焦点)
-                wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                floatViewParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 
                 // 设置显示的模式
-                wmParams.format = PixelFormat.RGBA_8888;
+                floatViewParams.format = PixelFormat.RGBA_8888;
                 // 设置对齐的方法
-                wmParams.gravity = Gravity.LEFT | Gravity.TOP;
+                floatViewParams.gravity = Gravity.LEFT | Gravity.TOP;
 //                wmParams.token = activity.getWindow().getWindowManager().
                 // 设置窗体宽度和高度
-                wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                floatViewParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                floatViewParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
                 DisplayMetrics dm = activity.getResources().getDisplayMetrics();
-                wmParams.x = dm.widthPixels;
-                wmParams.y = dm.heightPixels / 2;
-
+                floatViewParams.x = dm.widthPixels;
+                floatViewParams.y = dm.heightPixels / 2;
                 LayoutInflater inflater = (LayoutInflater)
                         activity.getSystemService
                                 (Context.LAYOUT_INFLATER_SERVICE);
 
                 if (inflater != null) {
-                    floatView = (ViewGroup) inflater.inflate(resId<0?FloatViewUtils.layoutId:resId, null);
+                    floatView = (ViewGroup) inflater.inflate(resId < 0 ? FloatViewUtils.layoutId : resId, null);
                 }
-                wmParams.token = floatView.getWindowToken();
                 if (floatView == null)
                     return;
-                if (mWindowManager != null) {
-                    Log.d(TAG, "mWindowManager addView " + floatView);
-                    mWindowManager.addView(floatView, wmParams);
-                }
+                floatViewParams.token = floatView.getWindowToken();
+                floatView.setLayoutParams(floatViewParams);
+
+                floatViewMap.put(activity.toString(), floatView);
                 //绑定触摸移动监听
                 floatView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         if (mWindowManager == null)
                             return false;
-                        wmParams.x = (int) event.getRawX() - floatView.getWidth() / 2;
+                        WindowManager.LayoutParams params = (WindowManager.LayoutParams) v.getLayoutParams();
+                        params.x = (int) event.getRawX() - v.getWidth() / 2;
                         //25为状态栏高度
-                        wmParams.y = (int) event.getRawY() - floatView.getHeight() / 2 - 40;
-                        Log.d(TAG, "x1=" + event.getRawX() + ",y1=" + event.getRawY());
-                        Log.d(TAG, "x2=" + wmParams.x + ",y2=" + wmParams.y);
-                        mWindowManager.updateViewLayout(floatView, wmParams);
+                        params.y = (int) event.getRawY() - v.getHeight() / 2 - 40;
+                        mWindowManager.updateViewLayout(v, params);
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             lastDownTime = System.currentTimeMillis();
                         } else if (System.currentTimeMillis() - lastDownTime < 250 && event.getAction() == MotionEvent.ACTION_UP) {
                             if (onClickListener != null)
-                                onClickListener.onClick(floatView);
-                            if(FloatViewUtils.onClickListener!=null){
-                                FloatViewUtils.onClickListener.onClick(floatView);
+                                onClickListener.onClick(v);
+                            if (FloatViewUtils.onClickListener != null) {
+                                FloatViewUtils.onClickListener.onClick(v);
                             }
                             return false;
                         }
                         return false;
                     }
                 });
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        floatView.setVisibility(View.VISIBLE);
+            mWindowManager.addView(floatView, floatView.getLayoutParams());
+        if (floatView != null)
+            floatView.setVisibility(View.VISIBLE);
     }
 
-    public static void setPosition(int x, int y) {
-        if (floatView != null && mWindowManager != null) {
+    public static void setPosition(Activity activity, int x, int y) {
+        WindowManager mWindowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        Log.d(TAG, "setPosition. ...activity=" + activity);
+        ViewGroup floatView = floatViewMap.get(activity.toString());
+        if (floatView == null)
+            return;
+        if (mWindowManager != null) {
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) floatView.getLayoutParams();
             params.x = x;
             params.y = y;
@@ -146,27 +151,34 @@ public class FloatViewUtils {
      * 隐藏浮动窗口
      */
 
-    public static void hiddenFloatView() {
-        Log.d(TAG, "hiddenFloatView....");
-        if (floatView != null && mWindowManager != null) {
+    public static void hiddenFloatView(Activity activity) {
+        Log.d(TAG, "hiddenFloatView. ...activity=" + activity);
+        WindowManager mWindowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        ViewGroup floatView = floatViewMap.get(activity.toString());
+        if (floatView == null)
+            return;
+        if (mWindowManager != null) {
             floatView.setVisibility(View.GONE);
+            mWindowManager.removeView(floatView);
         }
     }
 
     /**
      * 销毁浮动窗口
      */
-    private static void destroyFloatView(Activity activity) {
-        Log.d(TAG, "destroyFloatView....");
-        if (floatView != null && mWindowManager != null) {
+    public static void destroyFloatView(Activity activity) {
+        Log.d(TAG, "destroyFloatView. ...activity=" + activity);
+        ViewGroup floatView = floatViewMap.remove(activity.toString());
+        if (floatView == null)
+            return;
+        WindowManager mWindowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        if (mWindowManager != null) {
             try {
                 mWindowManager.removeView(floatView);
+                floatView = null;
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mWindowManager = null;
-            floatView = null;
-            activity = null;
         }
     }
 
@@ -174,7 +186,7 @@ public class FloatViewUtils {
      * 在应用退出时使用
      */
     public static void onAppExit() {
-        destroyFloatView();
+        floatViewMap.clear();
     }
 
 

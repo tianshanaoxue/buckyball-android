@@ -1,12 +1,10 @@
 package com.buckyball.viewutils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,18 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- *
- */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity1 extends AppCompatActivity implements View.OnClickListener {
     private TextView showFloatView, hiddenFloatView, destroyFloatView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -38,14 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showFloatView = (TextView) findViewById(R.id.showFloatView);
         hiddenFloatView = (TextView) findViewById(R.id.hiddenFloatView);
         destroyFloatView = (TextView) findViewById(R.id.destroyFloatView);
-
         showFloatView.setOnClickListener(this);
         hiddenFloatView.setOnClickListener(this);
         destroyFloatView.setOnClickListener(this);
         TextView skipView = (TextView) findViewById(R.id.skipView);
         skipView.setOnClickListener(this);
-        Log.i("ActivityTag","activity=" + this.toString()+","+getSystemService(Context.WINDOW_SERVICE));
-
+        Log.i("ActivityTag","activity1=" + this.toString()+","+getSystemService(Context.WINDOW_SERVICE));
     }
 
     @Override
@@ -102,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FloatViewUtils.destroyFloatView(this);
                 break;
             case R.id.skipView:
-                Intent intent = new Intent(this,MainActivity1.class);
-                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -111,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private View.OnClickListener floatViewonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(MainActivity.this, "浮动窗被点击", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity1.this, "浮动窗被点击", Toast.LENGTH_SHORT).show();
         }
     };
 }
