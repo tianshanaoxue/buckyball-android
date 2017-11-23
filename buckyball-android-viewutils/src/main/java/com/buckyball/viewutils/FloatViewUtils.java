@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,7 +33,24 @@ public class FloatViewUtils {
     private static View.OnClickListener onClickListener;
     private static int layoutId = -1;
 
+    /**
+     * 在应用中注册
+     *
+     * @param application     app的application
+     * @param layoutId        浮动窗的资源ID
+     * @param onClickListener 点击浮动窗的事件
+     */
     public static void registerActivityLifeCircle(Application application, int layoutId, View.OnClickListener onClickListener) {
+        if (application == null)
+            return;
+        if (activityLifeCircleCallback == null)
+            activityLifeCircleCallback = new FloatViewActivityLifeCircleCallback();
+        application.registerActivityLifecycleCallbacks(activityLifeCircleCallback);
+        FloatViewUtils.onClickListener = onClickListener;
+        FloatViewUtils.layoutId = layoutId;
+    }
+
+    public static void registerActivityLifeCircle(Application application, int layoutId, List<String> excludeClassNameList, View.OnClickListener onClickListener) {
         if (application == null)
             return;
         if (activityLifeCircleCallback == null)
@@ -52,11 +70,11 @@ public class FloatViewUtils {
      *
      * @param onClickListener
      */
-    public static void showFloatView(Activity activity, int resId, final View.OnClickListener onClickListener) {
+    public static ViewGroup showFloatView(Activity activity, int resId, final View.OnClickListener onClickListener) {
         if (activity == null)
-            return;
+            return null;
         if (resId < 0 && FloatViewUtils.layoutId < 0)
-            return;
+            return null;
         if (onClickListener != null)
             FloatViewUtils.onClickListener = onClickListener;
         ViewGroup floatView = floatViewMap.get(activity.toString());
@@ -93,7 +111,7 @@ public class FloatViewUtils {
                     floatView = (ViewGroup) inflater.inflate(resId < 0 ? FloatViewUtils.layoutId : resId, null);
                 }
                 if (floatView == null)
-                    return;
+                    return null;
                 floatViewParams.token = floatView.getWindowToken();
                 floatView.setLayoutParams(floatViewParams);
 
@@ -126,11 +144,11 @@ public class FloatViewUtils {
                 e.printStackTrace();
             }
         }
-        if (mWindowManager == null)
-            return;
+        if (mWindowManager == null || floatView == null)
+            return null;
         mWindowManager.addView(floatView, floatView.getLayoutParams());
-        if (floatView != null)
-            floatView.setVisibility(View.VISIBLE);
+        floatView.setVisibility(View.VISIBLE);
+        return floatView;
     }
 
     public static void setPosition(Activity activity, int x, int y) {
@@ -187,6 +205,7 @@ public class FloatViewUtils {
      */
     public static void onAppExit() {
         floatViewMap.clear();
+        activityLifeCircleCallback = null;
     }
 
 
