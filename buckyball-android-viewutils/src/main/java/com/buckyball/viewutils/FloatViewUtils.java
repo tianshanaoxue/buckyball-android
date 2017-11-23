@@ -146,7 +146,13 @@ public class FloatViewUtils {
         }
         if (mWindowManager == null || floatView == null)
             return null;
-        mWindowManager.addView(floatView, floatView.getLayoutParams());
+
+        try {
+            mWindowManager.addView(floatView, floatView.getLayoutParams());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         floatView.setVisibility(View.VISIBLE);
         return floatView;
     }
