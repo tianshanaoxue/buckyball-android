@@ -1,1 +1,1 @@
-include ':app', ':buckyball-android-animation', ':buckyball-android-viewutils', ':bunckyball-android-location'
+include ':app', ':buckyball-android-animation', ':buckyball-android-viewutils', ':bunckyball-android-location', ':buckyball-android-location', ':location', ':buckyball-android-location-map', ':buckyball-android-base'
