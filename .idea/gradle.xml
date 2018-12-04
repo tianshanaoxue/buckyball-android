@@ -3,21 +3,11 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT" />
+        </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/buckyball-android-animation" />
-            <option value="$PROJECT_DIR$/buckyball-android-base" />
-            <option value="$PROJECT_DIR$/buckyball-android-location" />
-            <option value="$PROJECT_DIR$/buckyball-android-location-map" />
-            <option value="$PROJECT_DIR$/buckyball-android-viewutils" />
-            <option value="$PROJECT_DIR$/bunckyball-android-location" />
-            <option value="$PROJECT_DIR$/location" />
-          </set>
-        </option>
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>

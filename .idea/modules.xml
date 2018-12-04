@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/buckyball-android-location/buckyball-android-location.iml" filepath="$PROJECT_DIR$/buckyball-android-location/buckyball-android-location.iml" />
       <module fileurl="file://$PROJECT_DIR$/buckyball-android-location-map/buckyball-android-location-map.iml" filepath="$PROJECT_DIR$/buckyball-android-location-map/buckyball-android-location-map.iml" />
       <module fileurl="file://$PROJECT_DIR$/buckyball-android-viewutils/buckyball-android-viewutils.iml" filepath="$PROJECT_DIR$/buckyball-android-viewutils/buckyball-android-viewutils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/buckyball_numberkeyboard/buckyball_numberkeyboard.iml" filepath="$PROJECT_DIR$/buckyball_numberkeyboard/buckyball_numberkeyboard.iml" />
       <module fileurl="file://$PROJECT_DIR$/bunckyball-android-location/bunckyball-android-location.iml" filepath="$PROJECT_DIR$/bunckyball-android-location/bunckyball-android-location.iml" />
       <module fileurl="file://$PROJECT_DIR$/location/location.iml" filepath="$PROJECT_DIR$/location/location.iml" />
     </modules>

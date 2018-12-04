@@ -1,0 +1,22 @@
+ext {
+    android = [
+            _compileSdkVersion: COMPILE_SDK_VERSION.toInteger(),
+            _buildToolsVersion: BUILD_TOOL_VERSION,
+            _minSdkVersion    : MIN_SDK_VERSION.toInteger(),
+            _targetSdkVersion : TARGET_SDK_VERSION.toInteger()
+    ]
+
+    dependencies = [
+            supportv7   : "com.android.support:appcompat-v7:${SUPPORT_VERSION}",
+            supportv4   : "com.android.support:appcompat-v4:${SUPPORT_VERSION}",
+            multidex    : 'com.android.support:multidex:1.0.3',
+            design      : "com.android.support:design:${SUPPORT_VERSION}",
+            recyclerview: "com.android.support:recyclerview-v7:${SUPPORT_VERSION}",
+            glide       : 'com.github.bumtech.glide:glide:3.7.0',
+            eventbus    : 'org.greenrobot:eventbus:3.1.1',
+            junit       : 'junit:junit:4.12',
+            reactnative : 'com.didi.rlab:react-native:0.57.0-r01',
+            okhttp      : 'com.squareup.okhttp3:okhttp:3.10.0',
+            support_constraint  : 'com.android.support.constraint:constraint-layout:1.1.3'
+    ]
+}

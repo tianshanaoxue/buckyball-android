@@ -1,0 +1,29 @@
+android {
+    compileSdkVersion rootProject.ext.android._compileSdkVersion
+    buildToolsVersion rootProject.ext.android._buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android._minSdkVersion
+        targetSdkVersion rootProject.ext.android._targetSdkVersion
+        versionCode VERSION_CODE.toInteger()
+        versionName VERSION_NAME
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize MAX_JVM_SIZE
+        jumboMode = true
+        preDexLibraries = true
+        threadCount = COMPILE_THREAD_NUM.toInteger()
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
