@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/buckyball-android.iml" filepath="$PROJECT_DIR$/.idea/buckyball-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/buckyball-android.iml" filepath="$PROJECT_DIR$/buckyball-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/buckyball-android-animation/buckyball-android-animation.iml" filepath="$PROJECT_DIR$/buckyball-android-animation/buckyball-android-animation.iml" />
       <module fileurl="file://$PROJECT_DIR$/buckyball-android-base/buckyball-android-base.iml" filepath="$PROJECT_DIR$/buckyball-android-base/buckyball-android-base.iml" />

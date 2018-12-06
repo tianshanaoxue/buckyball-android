@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.buckyball.module.numberkeyboard.BbNkbMainActivity;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -94,7 +96,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_numberkeyboard){
-            Intent intent = new Intent(this,BbNkbMainActivity.class);
+            Intent intent = new Intent(this, BbNkbMainActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
