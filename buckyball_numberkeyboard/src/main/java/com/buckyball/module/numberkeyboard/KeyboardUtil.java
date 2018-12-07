@@ -307,7 +307,7 @@ public class KeyboardUtil {
     private void keyCode(int primaryCode, EditText editText) {
         Editable editable = editText.getText();
         int start = editText.getSelectionStart();
-        if (primaryCode == Keyboard.KEYCODE_DELETE) { // 回退
+        if (primaryCode == Keyboard.KEYCODE_DELETE) {
             if (editText.hasFocus()) {
                 if (!TextUtils.isEmpty(editable)) {
                     if (start > 0) {
@@ -315,9 +315,10 @@ public class KeyboardUtil {
                     }
                 }
             }
-        } else if (primaryCode == Keyboard.KEYCODE_SHIFT) { // 大小写切换
+            // 大小写切换
+        } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
             mKeyboardView.setKeyboard(mKeyboard);
-        } else if (primaryCode == Keyboard.KEYCODE_CANCEL) {// 取消
+        } else if (primaryCode == Keyboard.KEYCODE_CANCEL) {
             hideSoftKeyboard();
         } else {
             if (editText.hasFocus()) {
