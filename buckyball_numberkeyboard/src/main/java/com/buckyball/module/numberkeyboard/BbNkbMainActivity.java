@@ -15,16 +15,16 @@ import android.widget.LinearLayout;
 public class BbNkbMainActivity extends AppCompatActivity {
 
     private EditText bbnbkEditText01;
-
+    private KeyboardUtil mKeyboardUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bbnbk_main);
         bbnbkEditText01 = findViewById(R.id.bbnbkEditText01);
-        LinearLayout keyboardLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.keyboard_layout, null);
-        CustomKeyboardView keyboardView = keyboardLayout.findViewById(R.id.keyboard_view);
-        keyboardView.init(bbnbkEditText01, true);
+
+        mKeyboardUtil = new KeyboardUtil(this,R.xml.number_replace_key,true);
+        mKeyboardUtil.attachTo(bbnbkEditText01,true);
     }
 
 }

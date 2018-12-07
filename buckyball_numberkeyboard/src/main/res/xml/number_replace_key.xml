@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--键盘-替换键值-->
+<?xml version="1.0" encoding="utf-8"?><!--键盘-替换键值 身份证输入-->
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:horizontalGap="0.5dp"
     android:keyWidth="25%p"
-    android:keyHeight="40dip"
-    android:verticalGap="6dp">
-    <Row>
+    android:keyHeight="@dimen/mand_mobile_rn_keyboard_key_height"
+    android:verticalGap="0.5dp">
+    <Row android:rowEdgeFlags="top">
         <Key
             android:codes="49"
+            android:keyEdgeFlags="left"
             android:keyLabel="1" />
         <Key
             android:codes="50"
@@ -16,11 +17,15 @@
             android:keyLabel="3" />
         <Key
             android:codes="-5"
+            android:isRepeatable="true"
+            android:keyHeight="@dimen/mand_mobile_rn_keyboard_key_height_double"
+            android:keyEdgeFlags="right"
             android:keyLabel="删除" />
     </Row>
     <Row>
         <Key
             android:codes="52"
+            android:keyEdgeFlags="left"
             android:keyLabel="4" />
         <Key
             android:codes="53"
@@ -28,10 +33,15 @@
         <Key
             android:codes="54"
             android:keyLabel="6" />
+        <Key
+            android:codes="0"
+            android:keyHeight="0dp"
+            android:keyLabel="" />
     </Row>
     <Row>
         <Key
             android:codes="55"
+            android:keyEdgeFlags="left"
             android:keyLabel="7" />
         <Key
             android:codes="56"
@@ -39,17 +49,27 @@
         <Key
             android:codes="57"
             android:keyLabel="9" />
+        <Key
+            android:codes="-4"
+            android:keyHeight="@dimen/mand_mobile_rn_keyboard_key_height_double"
+            android:keyEdgeFlags="right"
+            android:keyLabel="确定" />
     </Row>
     <Row>
         <Key
-            android:codes="46"
-            android:keyLabel="." />
+            android:codes="88"
+            android:keyEdgeFlags="left"
+            android:keyLabel="X" />
         <Key
             android:codes="48"
             android:keyLabel="0" />
         <Key
             android:codes="-3"
-            android:keyLabel="完成" />
+            android:keyLabel="收起" />
+        <Key
+            android:codes="0"
+            android:keyHeight="0dp"
+            android:keyLabel="" />
     </Row>
 
 </Keyboard>
